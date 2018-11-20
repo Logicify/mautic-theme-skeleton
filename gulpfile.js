@@ -26,20 +26,22 @@ const gulp = require('gulp'),
     sequence = require('gulp-sequence'),
     del = require('del'),
     rename = require("gulp-rename"),
-    util = require('gulp-util');
+    util = require('gulp-util'),
+    args = require('yargs').argv;
 
 sass.compiler = require('node-sass');
 
 const config = require('./package.json');
 
 const outputDir = './build',
-    buildDirectory = path.join(outputDir, 'out'),
+    buildDirectory = path.join(outputDir, 'theme'),
+    emailsDirectory = path.join(outputDir, 'emails'),
     deployDir = config.theme.mauticBasePath ?
         path.join(config.theme.mauticBasePath, 'themes', config.theme.name) : null,
     enableMinifier = config.theme.enableMinifier;
 
-gulp.task('build.heml', () =>
-    gulp.src(buildDirectory + '/heml/*.heml.twig')
+function buildHeml(input, output) {
+    return gulp.src(input)
         .pipe(include({
             prefix: '@'
         }))
@@ -64,7 +66,11 @@ gulp.task('build.heml', () =>
             path.basename = path.basename.replace('.heml', '.html');
             path.extname = '.twig';
         }))
-        .pipe(gulp.dest(buildDirectory + '/html'))
+        .pipe(gulp.dest(output));
+}
+
+gulp.task('build.heml', () =>
+    buildHeml(buildDirectory + '/heml/*.heml.twig', buildDirectory + '/html')
 );
 
 gulp.task('clean', () =>
@@ -106,3 +112,14 @@ gulp.task('package', ['build'], () =>
         .pipe(zip(config.theme.name + '.zip'))
         .pipe(gulp.dest(outputDir))
 );
+
+gulp.task('compile', () => {
+    if (!args.email) {
+        console.info("Usage: npm run compile -- --email welcome-email");
+        throw new Error("Parameter --email is missing.");
+    }
+    return buildHeml(
+        path.join('src', 'heml', 'emails', args.email + '.heml'),
+        emailsDirectory
+    )
+});

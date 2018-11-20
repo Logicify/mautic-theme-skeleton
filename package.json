@@ -6,7 +6,9 @@
   "scripts": {
     "build": "gulp build",
     "package": "gulp package",
-    "deploy": "gulp deploy"
+    "deploy": "gulp deploy",
+    "compile": "gulp compile",
+    "clean": "gulp clean"
   },
   "author": "Dmitry Berezovsky (logicify)",
   "license": "MIT",
@@ -29,5 +31,8 @@
     "name": "your-theme",
     "mauticBasePath": null,
     "enableMinifier": true
+  },
+  "dependencies": {
+    "yargs": "^12.0.5"
   }
 }
