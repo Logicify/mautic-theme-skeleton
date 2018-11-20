@@ -1,0 +1,31 @@
+container {
+  max-width: 770px;
+  padding: 0 25px;
+  font-size: 15px;
+}
+
+.logo {
+  .a {
+    color: #4bbcf4;
+    text-decoration: none;
+  }
+
+  img {
+    outline: none;
+    text-decoration: none;
+    -ms-interpolation-mode: bicubic;
+    display: block;
+    border: none;
+    margin: 0 auto;
+  }
+}
+
+.footer {
+  color: red;
+
+  .footer-socials {
+    .block__cell {
+      text-align: center !important;
+    }
+  }
+}

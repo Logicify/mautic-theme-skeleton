@@ -1,0 +1,33 @@
+{
+  "name": "mautic-theme-skeleton",
+  "version": "1.0.0",
+  "description": "Mautic Theme Skeleton",
+  "main": "gulpfile.js",
+  "scripts": {
+    "build": "gulp build",
+    "package": "gulp package",
+    "deploy": "gulp deploy"
+  },
+  "author": "Dmitry Berezovsky (logicify)",
+  "license": "MIT",
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-file-include": "^2.0.1",
+    "gulp-heml": "^1.0.0",
+    "gulp-html-minifier": "^0.1.8",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sequence": "^1.0.0",
+    "gulp-util": "^3.0.8",
+    "gulp-zip": "^4.0.0",
+    "heml": "^1.1.3",
+    "node-sass": "^4.10.0"
+  },
+  "theme": {
+    "name": "your-theme",
+    "mauticBasePath": null,
+    "enableMinifier": true
+  }
+}

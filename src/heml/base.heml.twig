@@ -1,0 +1,35 @@
+<heml>
+    <head>
+        <style>
+            @include('../assets/styles/email.css')
+        </style>
+        <subject>{subject}</subject>
+        {% block head_extra %}{% endblock %}
+    </head>
+    <body>
+    <div data-slot-container="">
+        {% block header %}
+            <div data-slot="image" class="logo">
+                <a target="_blank" href="https://logicify.com">
+                    <img src="{{ getAssetUrl('themes/'~template~'/assets/img/logo.png', null, null, true) }}"
+                    alt="Company Logo"/>
+                </a>
+            </div>
+        {% endblock %}
+    </div>
+    <div data-slot-container="">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    <div data-slot-container="">
+        {% block footer %}
+            <div data-slot="text">
+                <div class="footer">
+                    {unsubscribe_text} | {webview_text}
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+    </body>
+</heml>
