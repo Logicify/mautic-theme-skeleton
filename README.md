@@ -1,4 +1,4 @@
-# mautic-theme-skeleton
+# Mautic Theme Skeleton
 
 A skeleton for the Mautic theme with configured SCSS compiler, css inliner and minifier.
 
