@@ -37,7 +37,7 @@
       {
         "name": "your-theme",
         "verboseName": "Your Theme",
-        "emailTemplateFile": "email.your-theme.heml.twig"
+        "emailTemplateFile": "email.deafult.heml.twig"
       }
     ]
   }
