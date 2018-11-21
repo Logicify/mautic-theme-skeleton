@@ -27,6 +27,8 @@ const gulp = require('gulp'),
     del = require('del'),
     rename = require("gulp-rename"),
     util = require('gulp-util'),
+    fs = require('fs-extra'),
+    es = require('event-stream'),
     args = require('yargs').argv;
 
 sass.compiler = require('node-sass');
@@ -34,11 +36,12 @@ sass.compiler = require('node-sass');
 const config = require('./package.json');
 
 const outputDir = './build',
-    buildDirectory = path.join(outputDir, 'theme'),
+    buildDirectory = path.join(outputDir, 'out'),
+    themesDirectory = path.join(outputDir, 'themes'),
     emailsDirectory = path.join(outputDir, 'emails'),
-    deployDir = config.theme.mauticBasePath ?
-        path.join(config.theme.mauticBasePath, 'themes', config.theme.name) : null,
-    enableMinifier = config.theme.enableMinifier;
+    deployDir = config.mautic.mauticBasePath ?
+        path.join(config.mautic.mauticBasePath, 'themes') : null,
+    enableMinifier = config.mautic.enableMinifier;
 
 function buildHeml(input, output) {
     return gulp.src(input)
@@ -69,6 +72,43 @@ function buildHeml(input, output) {
         .pipe(gulp.dest(output));
 }
 
+gulp.task('build.bundles', () => {
+    for (let i = 0; i < config.mautic.themes.length; i++) {
+        const themePath = path.join(themesDirectory, config.mautic.themes[i].name);
+        const themeTemplateName = config.mautic.themes[i].emailTemplateFile.replace('.heml.', '.html.');
+        const manifestLocation = path.join(themePath, 'config.json');
+        let mainEmailThemeFile = null;
+        fs.copySync(buildDirectory, themePath, {
+            filter: (src, dest) => {
+                const fileName = path.basename(dest);
+                if (fileName.startsWith('email') && fileName.endsWith('.html.twig')) {
+                    if (fileName === themeTemplateName) {
+                        mainEmailThemeFile = dest;
+                    }
+                    return fileName === themeTemplateName;
+                } else {
+                    return true;
+                }
+            }
+        });
+        // Rename main e-mail theme file to match Mautic convention
+        if (mainEmailThemeFile) {
+            fs.moveSync(mainEmailThemeFile, path.join(path.dirname(mainEmailThemeFile), 'email.html.twig'));
+        } else {
+            throw new Error('Can\'t locate main email template file for theme ' + config.mautic.themes[i].name
+                + '. Check your property' + ' mautic.themes[].emailTemplateFile in package.json');
+        }
+        // Update Mautic theme manifest
+        const manifest = fs.readJsonSync(manifestLocation, {throws: false});
+        if (!manifest) {
+            throw new Error('Missing or invalid Mautic theme manifest file. Check your src/config.json');
+        }
+        manifest.name = config.mautic.themes[i].verboseName;
+        fs.writeJSONSync(manifestLocation, manifest, {spaces: 2});
+    }
+    return del([buildDirectory]);
+});
+
 gulp.task('build.heml', () =>
     buildHeml(buildDirectory + '/heml/*.heml.twig', buildDirectory + '/html')
 );
@@ -97,21 +137,28 @@ gulp.task('build.sass', () =>
         .pipe(gulp.dest(path.join(buildDirectory, 'assets')))
 );
 
-gulp.task('build', sequence('clean', 'copy', 'build.sass', 'build.heml', 'build.cleanup'));
+gulp.task('build', sequence('clean', 'copy', 'build.sass', 'build.heml', 'build.cleanup', 'build.bundles'));
 
 gulp.task('deploy', ['build'], () => {
     if (!deployDir) {
         throw Error("Deployment path is not defined. Please set theme.mauticBasePath in your package.json");
     }
-    gulp.src(buildDirectory + '/**/*')
+    gulp.src(themesDirectory + '/**/*')
         .pipe(gulp.dest(deployDir))
 });
 
-gulp.task('package', ['build'], () =>
-    gulp.src(buildDirectory + '/*')
-        .pipe(zip(config.theme.name + '.zip'))
-        .pipe(gulp.dest(outputDir))
-);
+gulp.task('package', ['build'], (cb) => {
+    const themes = fs.readdirSync(themesDirectory);
+    let zipTasks = [];
+    for (let i = 0; i < themes.length; i++) {
+        zipTasks.push(
+            gulp.src(path.join(themesDirectory, themes[i]) + '/*')
+                .pipe(zip(themes[i] + '.zip'))
+                .pipe(gulp.dest(outputDir))
+        );
+    }
+    es.concat(zipTasks).on('end', cb);
+});
 
 gulp.task('compile', () => {
     if (!args.email) {
@@ -121,5 +168,5 @@ gulp.task('compile', () => {
     return buildHeml(
         path.join('src', 'heml', 'emails', args.email + '.heml'),
         emailsDirectory
-    )
+    );
 });
