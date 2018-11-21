@@ -137,7 +137,7 @@ gulp.task('build.sass', () =>
         .pipe(gulp.dest(path.join(buildDirectory, 'assets')))
 );
 
-gulp.task('build', sequence('clean', 'copy', 'build.sass', 'build.heml', 'build.cleanup', 'build.bundles'));
+gulp.task('build', (cb) => sequence('clean', 'copy', 'build.sass', 'build.heml', 'build.cleanup', 'build.bundles')(cb));
 
 gulp.task('deploy', ['build'], () => {
     if (!deployDir) {
@@ -170,3 +170,12 @@ gulp.task('compile', () => {
         emailsDirectory
     );
 });
+
+gulp.task('watch', () =>
+    gulp.watch([
+        '!./src/heml/emails/**/*',
+        '!./src/**/*___jb_tmp___',
+        './src/**/*.twig',
+        './src/assets/**/*'
+    ],['deploy'])
+);

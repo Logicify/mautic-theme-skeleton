@@ -8,7 +8,8 @@
     "package": "gulp package",
     "deploy": "gulp deploy",
     "compile": "gulp compile",
-    "clean": "gulp clean"
+    "clean": "gulp clean",
+    "watch": "gulp watch"
   },
   "author": "Dmitry Berezovsky (logicify)",
   "license": "MIT",
