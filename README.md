@@ -37,9 +37,7 @@ some remote machine.
 
 1. Download or fork/clone this repository
 1. Open terminal and navigate to the project directory.
-
   **NOTE**: Keep project's folder **outside** of your Mautic folder.
-
 1. Run `npm install` to download all dependencies 
 1. **Optional** Open `package.json` and set property `mautic.mauticBasePath` to point location of the root of your Mautic 
   installation. This might be a relative path as well as absolute. You may skip this step, however automatic deployment
