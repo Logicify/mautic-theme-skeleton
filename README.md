@@ -2,7 +2,7 @@
 
 A skeleton for the Mautic theme with configured SCSS compiler, css inliner and minifier.
 
-This repository might be use as good start for configuring theme development process as well as a tool for building 
+This repository might be used as good start for configuring theme development process as well as a tool for building 
 more complicated pieces of emails (something which is hard to develop in Mautic's content editor).
 
 It incorporates a bunch of standard tools like (pre-processor, css compressor, css inliner, etc) into building pipeline
