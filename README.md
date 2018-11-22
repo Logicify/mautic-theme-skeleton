@@ -10,6 +10,8 @@ which makes email layouting less painful (just a bit though ;)).
 
 Currently it supports <u>e-mail themes only</u>.
 
+You might also want to check [Advanced Templates Bundle](https://github.com/Logicify/mautic-advanced-templates-bundle) which greately extends e-mail building capabilities.
+
 ## Features
 
 * **SCSS compiler** - you can use powerful [SCSS syntax](https://sass-lang.com/) and mixins
