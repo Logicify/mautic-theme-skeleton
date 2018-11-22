@@ -36,10 +36,12 @@ some remote machine.
 ## Getting ready to work
 
 1. Download or fork/clone this repository
-2. Open terminal and navigate to the project directory. 
-   **NOTE**: Keep project's folder **outside** of your Mautic folder.
-3. Run `npm install` to download all dependencies 
-4. **Optional** Open `package.json` and set property `mautic.mauticBasePath` to point location of the root of your Mautic 
+1. Open terminal and navigate to the project directory.
+
+  **NOTE**: Keep project's folder **outside** of your Mautic folder.
+
+1. Run `npm install` to download all dependencies 
+1. **Optional** Open `package.json` and set property `mautic.mauticBasePath` to point location of the root of your Mautic 
   installation. This might be a relative path as well as absolute. You may skip this step, however automatic deployment
    and automatic rebuild features will not work in this case. 
 
@@ -70,10 +72,10 @@ designing emails content which is not a part of the theme itself.
 Yes, it is possible with `compile` command:
 
 1. Create a file for your code snippet under `src/emails` folder.
-   **NOTE**: Make sure to use `.heml` as an extension. E.g. `welcome-email.heml`
+    **NOTE**: Make sure to use `.heml` as an extension. E.g. `welcome-email.heml`
 2. Put your heml here, include css in needed.
 3. Run `npm run compile -- --email FILE_NAME_WITHOUT_EXTENSION`. E.g. `npm run compile -- --email welcome-email`
-   **NOTE**: Notice no file extension here.
+    **NOTE**: Notice no file extension here.
 4. Find your compiled snipet under `build/emails`. You can just copy the code and paste it in the Moutic's editor.    
 
 ### Maintaining multiple themes
@@ -89,21 +91,21 @@ In order to avoid this mess this tool allows you to build multiple Mautic themes
 example we will create 2 themes: `my-theme-1` and `my-theme-2`:
 
 1. Edit section `mautic.themes` of the `package.json` file:
-```json
-"themes": [
-  {
-    "name": "my-theme-1",
-    "verboseName": "My Theme 1",
-    "emailTemplateFile": "email.my-theme-1.heml.twig"
-  },
-  {
-    "name": "my-theme-2",
-    "verboseName": "My Theme 2",
-    "emailTemplateFile": "email.my-theme-2.heml.twig"
-  }
-]
-```
-**IMPORTANT**: Name of the file should be in the format "email.**your-theme**.heml.twig" you are allowed to 
+  ```json
+  "themes": [
+    {
+      "name": "my-theme-1",
+      "verboseName": "My Theme 1",
+      "emailTemplateFile": "email.my-theme-1.heml.twig"
+    },
+    {
+      "name": "my-theme-2",
+      "verboseName": "My Theme 2",
+      "emailTemplateFile": "email.my-theme-2.heml.twig"
+    }
+  ]
+  ```
+  **IMPORTANT**: Name of the file should be in the format "email.**your-theme**.heml.twig" you are allowed to 
 change bold part only. It is very important to follow this convention!
 2. Copy `src/heml/email.deafult.heml.twig` two times to create `email.my-theme-1.heml.twig` and `email.my-theme-2
   .heml.twig`
