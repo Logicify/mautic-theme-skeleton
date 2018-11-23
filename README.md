@@ -44,6 +44,7 @@ some remote machine.
 1. **Optional** Open `package.json` and set property `mautic.mauticBasePath` to point location of the root of your Mautic 
   installation. This might be a relative path as well as absolute. You may skip this step, however automatic deployment
    and automatic rebuild features will not work in this case. 
+1. You may also want to familiarize yourself with Mautic themes building basics. Check out [this official guide](https://www.mautic.org/building-a-theme-step-by-step/).
 
 ## Usage
 
