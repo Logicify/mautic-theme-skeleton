@@ -1,6 +1,6 @@
 # Mautic Theme Skeleton
 
-A skeleton for the Mautic theme with configured SCSS compiler, css inliner and minifier.
+A skeleton for the Mautic theme with configured SCSS compiler, css inliner and html minifier.
 
 This repository might be used as good start for configuring theme development process as well as a tool for building 
 more complicated pieces of emails (something which is hard to develop in Mautic's content editor).
