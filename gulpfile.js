@@ -152,7 +152,7 @@ gulp.task('package', ['build'], (cb) => {
     let zipTasks = [];
     for (let i = 0; i < themes.length; i++) {
         zipTasks.push(
-            gulp.src(path.join(themesDirectory, themes[i]) + '/*')
+            gulp.src(path.join(themesDirectory, themes[i]) + '/**')
                 .pipe(zip(themes[i] + '.zip'))
                 .pipe(gulp.dest(outputDir))
         );
